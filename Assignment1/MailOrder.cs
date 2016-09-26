@@ -16,5 +16,15 @@ namespace Assignment1
         {
             InitializeComponent();
         }
+
+        private void CalculateBonusButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void SetLanguageToFrenchRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            HoursWorkedTextBox.Text = "Test";
+        }
     }
 }
