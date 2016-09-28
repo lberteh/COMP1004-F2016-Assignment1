@@ -40,7 +40,7 @@
             this.EmployeesNameTextBox = new System.Windows.Forms.TextBox();
             this.EmployeeIDTextBox = new System.Windows.Forms.TextBox();
             this.HoursWorkedTextBox = new System.Windows.Forms.TextBox();
-            this.TotalSalesLabelTextBox = new System.Windows.Forms.TextBox();
+            this.TotalSalesTextBox = new System.Windows.Forms.TextBox();
             this.SalesBonusTextBox = new System.Windows.Forms.TextBox();
             this.CalculateBonusButton = new System.Windows.Forms.Button();
             this.PrintButton = new System.Windows.Forms.Button();
@@ -100,7 +100,7 @@
             // 
             this.EmployeesNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EmployeesNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EmployeesNameLabel.Location = new System.Drawing.Point(5, 220);
+            this.EmployeesNameLabel.Location = new System.Drawing.Point(5, 213);
             this.EmployeesNameLabel.Name = "EmployeesNameLabel";
             this.EmployeesNameLabel.Size = new System.Drawing.Size(270, 32);
             this.EmployeesNameLabel.TabIndex = 2;
@@ -111,7 +111,7 @@
             // 
             this.EmployeeIDLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EmployeeIDLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EmployeeIDLabel.Location = new System.Drawing.Point(5, 273);
+            this.EmployeeIDLabel.Location = new System.Drawing.Point(-3, 269);
             this.EmployeeIDLabel.Name = "EmployeeIDLabel";
             this.EmployeeIDLabel.Size = new System.Drawing.Size(270, 32);
             this.EmployeeIDLabel.TabIndex = 3;
@@ -122,7 +122,7 @@
             // 
             this.TotalSalesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TotalSalesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TotalSalesLabel.Location = new System.Drawing.Point(5, 407);
+            this.TotalSalesLabel.Location = new System.Drawing.Point(5, 399);
             this.TotalSalesLabel.Name = "TotalSalesLabel";
             this.TotalSalesLabel.Size = new System.Drawing.Size(270, 32);
             this.TotalSalesLabel.TabIndex = 5;
@@ -133,7 +133,7 @@
             // 
             this.SalesBonusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SalesBonusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SalesBonusLabel.Location = new System.Drawing.Point(5, 463);
+            this.SalesBonusLabel.Location = new System.Drawing.Point(-3, 455);
             this.SalesBonusLabel.Name = "SalesBonusLabel";
             this.SalesBonusLabel.Size = new System.Drawing.Size(270, 31);
             this.SalesBonusLabel.TabIndex = 6;
@@ -143,21 +143,28 @@
             // EmployeesNameTextBox
             // 
             this.EmployeesNameTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.EmployeesNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EmployeesNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EmployeesNameTextBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.EmployeesNameTextBox.Location = new System.Drawing.Point(273, 216);
             this.EmployeesNameTextBox.Multiline = true;
             this.EmployeesNameTextBox.Name = "EmployeesNameTextBox";
-            this.EmployeesNameTextBox.Size = new System.Drawing.Size(303, 36);
+            this.EmployeesNameTextBox.Size = new System.Drawing.Size(303, 30);
             this.EmployeesNameTextBox.TabIndex = 7;
+            this.EmployeesNameTextBox.Tag = "e.g. - Lucas Schoenardie";
+            this.EmployeesNameTextBox.Enter += new System.EventHandler(this.TextBoxGotFocus);
+            this.EmployeesNameTextBox.Leave += new System.EventHandler(this.TextBoxLostFocus);
             // 
             // EmployeeIDTextBox
             // 
             this.EmployeeIDTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EmployeeIDTextBox.Location = new System.Drawing.Point(273, 269);
+            this.EmployeeIDTextBox.Location = new System.Drawing.Point(273, 272);
             this.EmployeeIDTextBox.Multiline = true;
             this.EmployeeIDTextBox.Name = "EmployeeIDTextBox";
-            this.EmployeeIDTextBox.Size = new System.Drawing.Size(188, 36);
+            this.EmployeeIDTextBox.Size = new System.Drawing.Size(188, 30);
             this.EmployeeIDTextBox.TabIndex = 8;
+            this.EmployeeIDTextBox.Tag = "e.g. - 12345";
+            this.EmployeeIDTextBox.Enter += new System.EventHandler(this.TextBoxGotFocus);
+            this.EmployeeIDTextBox.Leave += new System.EventHandler(this.TextBoxLostFocus);
             // 
             // HoursWorkedTextBox
             // 
@@ -165,17 +172,23 @@
             this.HoursWorkedTextBox.Location = new System.Drawing.Point(273, 346);
             this.HoursWorkedTextBox.Multiline = true;
             this.HoursWorkedTextBox.Name = "HoursWorkedTextBox";
-            this.HoursWorkedTextBox.Size = new System.Drawing.Size(188, 36);
+            this.HoursWorkedTextBox.Size = new System.Drawing.Size(188, 30);
             this.HoursWorkedTextBox.TabIndex = 9;
+            this.HoursWorkedTextBox.Tag = "e.g. - 160";
+            this.HoursWorkedTextBox.Enter += new System.EventHandler(this.TextBoxGotFocus);
+            this.HoursWorkedTextBox.Leave += new System.EventHandler(this.TextBoxLostFocus);
             // 
-            // TotalSalesLabelTextBox
+            // TotalSalesTextBox
             // 
-            this.TotalSalesLabelTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TotalSalesLabelTextBox.Location = new System.Drawing.Point(273, 402);
-            this.TotalSalesLabelTextBox.Multiline = true;
-            this.TotalSalesLabelTextBox.Name = "TotalSalesLabelTextBox";
-            this.TotalSalesLabelTextBox.Size = new System.Drawing.Size(188, 36);
-            this.TotalSalesLabelTextBox.TabIndex = 10;
+            this.TotalSalesTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TotalSalesTextBox.Location = new System.Drawing.Point(273, 402);
+            this.TotalSalesTextBox.Multiline = true;
+            this.TotalSalesTextBox.Name = "TotalSalesTextBox";
+            this.TotalSalesTextBox.Size = new System.Drawing.Size(188, 30);
+            this.TotalSalesTextBox.TabIndex = 10;
+            this.TotalSalesTextBox.Tag = "e.g. - 14000";
+            this.TotalSalesTextBox.Enter += new System.EventHandler(this.TextBoxGotFocus);
+            this.TotalSalesTextBox.Leave += new System.EventHandler(this.TextBoxLostFocus);
             // 
             // SalesBonusTextBox
             // 
@@ -184,7 +197,7 @@
             this.SalesBonusTextBox.Multiline = true;
             this.SalesBonusTextBox.Name = "SalesBonusTextBox";
             this.SalesBonusTextBox.ReadOnly = true;
-            this.SalesBonusTextBox.Size = new System.Drawing.Size(188, 36);
+            this.SalesBonusTextBox.Size = new System.Drawing.Size(188, 30);
             this.SalesBonusTextBox.TabIndex = 11;
             // 
             // CalculateBonusButton
@@ -228,7 +241,7 @@
             // 
             this.HoursWorkedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.HoursWorkedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HoursWorkedLabel.Location = new System.Drawing.Point(5, 351);
+            this.HoursWorkedLabel.Location = new System.Drawing.Point(5, 343);
             this.HoursWorkedLabel.Name = "HoursWorkedLabel";
             this.HoursWorkedLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.HoursWorkedLabel.Size = new System.Drawing.Size(270, 31);
@@ -245,7 +258,7 @@
             this.Controls.Add(this.PrintButton);
             this.Controls.Add(this.CalculateBonusButton);
             this.Controls.Add(this.SalesBonusTextBox);
-            this.Controls.Add(this.TotalSalesLabelTextBox);
+            this.Controls.Add(this.TotalSalesTextBox);
             this.Controls.Add(this.HoursWorkedTextBox);
             this.Controls.Add(this.EmployeeIDTextBox);
             this.Controls.Add(this.EmployeesNameTextBox);
@@ -259,12 +272,18 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MailOrder";
             this.Text = "Sales Bonus";
+            this.Load += new System.EventHandler(this.MailOrder_Load);
             ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();
             this.LanguagesGroupBox.ResumeLayout(false);
             this.LanguagesGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        public string employeesName
+        {
+            get { return this.EmployeesNameTextBox.Text; } set { }            
         }
 
         #endregion
@@ -280,7 +299,7 @@
         private System.Windows.Forms.TextBox EmployeesNameTextBox;
         private System.Windows.Forms.TextBox EmployeeIDTextBox;
         private System.Windows.Forms.TextBox HoursWorkedTextBox;
-        private System.Windows.Forms.TextBox TotalSalesLabelTextBox;
+        private System.Windows.Forms.TextBox TotalSalesTextBox;
         private System.Windows.Forms.TextBox SalesBonusTextBox;
         private System.Windows.Forms.Button CalculateBonusButton;
         private System.Windows.Forms.Button PrintButton;
