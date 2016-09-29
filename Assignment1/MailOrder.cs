@@ -126,6 +126,64 @@ namespace Assignment1
             }
         }
 
+        private void PrintButton_Click(object sender, EventArgs e)
+        {
+            PrintMessage();
+        }
 
+        private void PrintMessage()
+        {
+            string caption;
+            if (PrintedMessage() == "All fields are required")
+            {
+                caption = "Print Error";
+            }
+            else
+            {
+                caption = "Sending to Printer";
+            }
+            MessageBox.Show(PrintedMessage(), caption);
+        }
+
+        private string PrintedMessage()
+        {
+            string toPrint;
+            try
+            {
+                toPrint = "hsbdhj";
+                foreach (Control ctrl in this.Controls)
+                {
+                    if (ctrl.GetType() == typeof(TextBox) && ctrl.Name != "SalesBonusTextBox")
+                    {
+                       if (ctrl.Text == (string)ctrl.Tag || SalesBonusTextBox.Text == string.Empty)
+                       {                         
+                           
+                           throw new Exception("test");
+                       }
+                       else
+                        {
+                            toPrint = "Print Preview" 
+                                + "\n\nEmployee Name: " + EmployeesNameTextBox.Text
+                                + "\nEmployee ID: "     + EmployeeIDTextBox.Text
+                                + "\n\nHours Worked: "  + HoursWorkedTextBox.Text
+                                + "\nTotal Sales: "     + TotalSalesTextBox.Text
+                                + "\n\nSALES BONUS: "   + SalesBonusTextBox.Text;
+                        }
+                    }
+                }
+                
+            }
+            catch (Exception exception)
+            {
+                toPrint = "All fields are required";                
+                Debug.WriteLine(exception.Message);
+            }
+            return toPrint;
+        }
+
+        private void EmployeeIDLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

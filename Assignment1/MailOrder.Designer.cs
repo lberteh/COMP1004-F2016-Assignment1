@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MailOrder));
             this.LogoPictureBox = new System.Windows.Forms.PictureBox();
             this.LanguagesGroupBox = new System.Windows.Forms.GroupBox();
+            this.SetLanguageToPortugueseRadioButton = new System.Windows.Forms.RadioButton();
             this.SetLanguageToFrenchRadioButton = new System.Windows.Forms.RadioButton();
             this.SetLanguageToEnglishRadioButton = new System.Windows.Forms.RadioButton();
             this.EmployeesNameLabel = new System.Windows.Forms.Label();
@@ -53,7 +54,7 @@
             // LogoPictureBox
             // 
             this.LogoPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("LogoPictureBox.Image")));
-            this.LogoPictureBox.Location = new System.Drawing.Point(25, 25);
+            this.LogoPictureBox.Location = new System.Drawing.Point(45, 16);
             this.LogoPictureBox.Name = "LogoPictureBox";
             this.LogoPictureBox.Size = new System.Drawing.Size(196, 173);
             this.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -62,15 +63,26 @@
             // 
             // LanguagesGroupBox
             // 
+            this.LanguagesGroupBox.Controls.Add(this.SetLanguageToPortugueseRadioButton);
             this.LanguagesGroupBox.Controls.Add(this.SetLanguageToFrenchRadioButton);
             this.LanguagesGroupBox.Controls.Add(this.SetLanguageToEnglishRadioButton);
             this.LanguagesGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LanguagesGroupBox.Location = new System.Drawing.Point(273, 28);
             this.LanguagesGroupBox.Name = "LanguagesGroupBox";
-            this.LanguagesGroupBox.Size = new System.Drawing.Size(303, 131);
+            this.LanguagesGroupBox.Size = new System.Drawing.Size(303, 161);
             this.LanguagesGroupBox.TabIndex = 1;
             this.LanguagesGroupBox.TabStop = false;
             this.LanguagesGroupBox.Text = "Language";
+            // 
+            // SetLanguageToPortugueseRadioButton
+            // 
+            this.SetLanguageToPortugueseRadioButton.AutoSize = true;
+            this.SetLanguageToPortugueseRadioButton.Location = new System.Drawing.Point(17, 112);
+            this.SetLanguageToPortugueseRadioButton.Name = "SetLanguageToPortugueseRadioButton";
+            this.SetLanguageToPortugueseRadioButton.Size = new System.Drawing.Size(141, 33);
+            this.SetLanguageToPortugueseRadioButton.TabIndex = 2;
+            this.SetLanguageToPortugueseRadioButton.Text = "Português";
+            this.SetLanguageToPortugueseRadioButton.UseVisualStyleBackColor = true;
             // 
             // SetLanguageToFrenchRadioButton
             // 
@@ -100,7 +112,7 @@
             // 
             this.EmployeesNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EmployeesNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EmployeesNameLabel.Location = new System.Drawing.Point(5, 213);
+            this.EmployeesNameLabel.Location = new System.Drawing.Point(5, 214);
             this.EmployeesNameLabel.Name = "EmployeesNameLabel";
             this.EmployeesNameLabel.Size = new System.Drawing.Size(270, 32);
             this.EmployeesNameLabel.TabIndex = 2;
@@ -111,12 +123,13 @@
             // 
             this.EmployeeIDLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EmployeeIDLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EmployeeIDLabel.Location = new System.Drawing.Point(-3, 269);
+            this.EmployeeIDLabel.Location = new System.Drawing.Point(5, 269);
             this.EmployeeIDLabel.Name = "EmployeeIDLabel";
             this.EmployeeIDLabel.Size = new System.Drawing.Size(270, 32);
             this.EmployeeIDLabel.TabIndex = 3;
             this.EmployeeIDLabel.Text = "Employee ID:";
             this.EmployeeIDLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.EmployeeIDLabel.Click += new System.EventHandler(this.EmployeeIDLabel_Click);
             // 
             // TotalSalesLabel
             // 
@@ -133,7 +146,7 @@
             // 
             this.SalesBonusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SalesBonusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SalesBonusLabel.Location = new System.Drawing.Point(-3, 455);
+            this.SalesBonusLabel.Location = new System.Drawing.Point(5, 455);
             this.SalesBonusLabel.Name = "SalesBonusLabel";
             this.SalesBonusLabel.Size = new System.Drawing.Size(270, 31);
             this.SalesBonusLabel.TabIndex = 6;
@@ -225,6 +238,7 @@
             this.PrintButton.TabIndex = 13;
             this.PrintButton.Text = "Print";
             this.PrintButton.UseVisualStyleBackColor = true;
+            this.PrintButton.Click += new System.EventHandler(this.PrintButton_Click);
             // 
             // NextEntryButton
             // 
@@ -270,7 +284,9 @@
             this.Controls.Add(this.LogoPictureBox);
             this.Controls.Add(this.HoursWorkedLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "MailOrder";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sales Bonus";
             this.Load += new System.EventHandler(this.MailOrder_Load);
             ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();
@@ -305,6 +321,7 @@
         private System.Windows.Forms.Button PrintButton;
         private System.Windows.Forms.Button NextEntryButton;
         private System.Windows.Forms.Label HoursWorkedLabel;
+        private System.Windows.Forms.RadioButton SetLanguageToPortugueseRadioButton;
     }
 }
 
