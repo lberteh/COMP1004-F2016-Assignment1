@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,6 +23,12 @@ namespace Assignment1
             InitializeComponent();
         }
 
+        public void FocusChildTextBox(object sender, EventArgs e)
+        {
+            Panel panel = (Panel)sender;
+            
+        }
+
         private void MailOrder_Load(object sender, EventArgs e) 
         {
             foreach (Control ctrl in this.Controls)
@@ -28,16 +36,16 @@ namespace Assignment1
                 if (ctrl.GetType() == typeof(TextBox) && ctrl.Name != "SalesBonusTextBox")
                 {
                     // Do whatever to the TextBox 
-                    ctrl.Font = placeholderFont;
+                    // ctrl.Font = placeholderFont;
                     ctrl.Text = (string)ctrl.Tag;
-                    ctrl.ForeColor = System.Drawing.SystemColors.WindowFrame;
+                    // ctrl.ForeColor = System.Drawing.SystemColors.WindowFrame;
                 }
             }
         }
 
         private void CalculateBonusButton_Click(object sender, EventArgs e)
         {
-            CalculateSalesBonus();
+            CalculateSalesBonus();            
         }
 
         private void CalculateSalesBonus()
@@ -50,13 +58,23 @@ namespace Assignment1
             double SalesBonus;
             double PercentageOfHoursWorked;
             double TotalBonusAmount;
+            string TotalSales;
 
             try
             {
                 // read values from the text boxes
                 TotalHoursWorked = Convert.ToDouble(HoursWorkedTextBox.Text);
                 PercentageOfHoursWorked = TotalHoursWorked / MaxHours;
-                TotalMonthlySales = Convert.ToDouble(TotalSalesTextBox.Text);
+
+                // clear all formating and keep only numbers 
+                TotalSales = TotalSalesTextBox.Text.Replace(",", "")
+                .Replace("$", "").Replace(".", "").TrimStart('0');
+                
+                // insert a dot before last 2 digits so we can have cents
+                TotalSales = TotalSales.Insert(TotalSales.Length - 2, ".");
+                // Debug.WriteLine(TotalSales);
+
+                TotalMonthlySales = Convert.ToDouble(TotalSales);
                 TotalBonusAmount = TotalMonthlySales * BonusPercentage;
                 SalesBonus = PercentageOfHoursWorked * TotalBonusAmount;              
            
@@ -69,30 +87,62 @@ namespace Assignment1
             }
 
         }
+        private void SetLanguage(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
 
-        private void SetLanguageToFrenchRadioButton_CheckedChanged(object sender, EventArgs e)
+            if(button.Name == "SetLanguageToPortugueseButton")
+            {
+                SetLanguageToPortuguese();
+            }
+            if(button.Name == "SetLanguageToEnglishButton")
+            {
+                SetLanguageToEnglish();
+            }
+            if (button.Name == "SetLanguageToFrenchButton")
+            {
+                SetLanguageToFrench();
+            }
+
+        }
+
+        private void SetLanguageToPortuguese()
+        {
+            MailOrder.ActiveForm.Text = "Bônus de vendas";
+          //  LanguagesGroupBox.Text = "Idioma";
+            EmployeesNameLabel.Text = "Nome do Funcionário";
+            EmployeeIDLabel.Text = "ID do Funcionário";
+            HoursWorkedLabel.Text = "Horas Trabalhadas";
+            TotalSalesLabel.Text = "Total de Vendas";
+            Sal.Text = "Bônus de Vendas:";
+            CalculateBonusButton.Text = "Calcular";
+            PrintButton.Text = "Imprimir";
+            NextEntryButton.Text = "Próximo";
+        }
+
+        private void SetLanguageToFrench()
         {
             MailOrder.ActiveForm.Text = "Bonus de vente";
-            LanguagesGroupBox.Text = "La Langue";
-            EmployeesNameLabel.Text = "Nom de l'Employé:";
-            EmployeeIDLabel.Text = "ID d'Employé:";
-            HoursWorkedLabel.Text = "Heures Travaillées:";
-            TotalSalesLabel.Text = "Total des ventes:";
-            SalesBonusLabel.Text = "Bonus de vente:";
+            //   LanguagesGroupBox.Text = "La Langue";
+            EmployeesNameLabel.Text = "Nom de l'Employé";
+            EmployeeIDLabel.Text = "ID d'Employé";
+            HoursWorkedLabel.Text = "Heures Travaillées";
+            TotalSalesLabel.Text = "Total des ventes";
+            Sal.Text = "Bonus de vente";
             CalculateBonusButton.Text = "Calculer";
             PrintButton.Text = "Imprimer";
             NextEntryButton.Text = "Suivant";
         }
 
-        private void SetLanguageToEnglishRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void SetLanguageToEnglish()
         {
             MailOrder.ActiveForm.Text = "Sales Bonus";
-            LanguagesGroupBox.Text = "Language";
+            //   LanguagesGroupBox.Text = "Language";
             EmployeesNameLabel.Text = "Employee's Name";
-            EmployeeIDLabel.Text = "Employee ID:";
-            HoursWorkedLabel.Text = "Hours Worked:";
-            TotalSalesLabel.Text = "Total Sales:";
-            SalesBonusLabel.Text = "Sales Bonus:";
+            EmployeeIDLabel.Text = "Employee ID";
+            HoursWorkedLabel.Text = "Hours Worked";
+            TotalSalesLabel.Text = "Total Sales";
+            Sal.Text = "Sales Bonus";
             CalculateBonusButton.Text = "Calculate";
             PrintButton.Text = "Print";
             NextEntryButton.Text = "Next";
@@ -181,9 +231,51 @@ namespace Assignment1
             return toPrint;
         }
 
-        private void EmployeeIDLabel_Click(object sender, EventArgs e)
+        private void NextEntryButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void TotalSalesTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //Remove previous formatting, or the decimal check will fail including leading zeros
+            string value = TotalSalesTextBox.Text.Replace(",", "")
+                .Replace("$", "").Replace(".", "").TrimStart('0');
+            decimal ul;
+            //Check we are indeed handling a number
+            if (decimal.TryParse(value, out ul))
+            {
+                ul /= 100;
+                //Unsub the event so we don't enter a loop
+                TotalSalesTextBox.TextChanged -= TotalSalesTextBox_TextChanged;
+                //Format the text as currency
+                TotalSalesTextBox.Text = string.Format(CultureInfo.CreateSpecificCulture("en-CA"), "{0:C2}", ul);
+                TotalSalesTextBox.TextChanged += TotalSalesTextBox_TextChanged;
+                TotalSalesTextBox.Select(TotalSalesTextBox.Text.Length, 0);
+            }
+            bool goodToGo = TextIsValid(TotalSalesTextBox.Text);
+           // enterButton.Enabled = goodToGo;
+            if (!goodToGo)
+            {
+                TotalSalesTextBox.Text = "$0.00";
+                TotalSalesTextBox.Select(TotalSalesTextBox.Text.Length, 0);
+            }
+        }
+
+        private bool TextIsValid(string text)
+        {
+            Regex currency = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
+            return currency.IsMatch(text);
+        }
+
+        private void EmployeesNameLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SetLanguageToEnglishButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFCC66");
         }
     }
 }
