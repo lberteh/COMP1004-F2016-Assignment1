@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * App: Sales Bonus
+ * Author: Lucas Schoenardie
+ * Create on: 30/09/2016
+ * Description: Calculates the Sales Bonus paid to each employee based on amount of worked hours
+ *              and total monthly sales 
+ */
+ 
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +23,7 @@ using System.Windows.Forms;
 
 namespace Assignment1
 {
+    // Partial class declaration 
     public partial class MailOrder : Form
     {
 
@@ -177,6 +188,7 @@ namespace Assignment1
             SetLanguageToPortugueseButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#546e7a");
         }
 
+        // TextChanged Event Handler
         // This method is used to implement a placeholder functionality for the textboxes
         // Once user starts typing, the label that was visible (working as a placeholder), goes invisible
         public void TextBoxTextChange(object sender, EventArgs e)
@@ -276,6 +288,7 @@ namespace Assignment1
             SalesBonusResultLabel.Text = string.Empty;
         }
 
+        // TextChanged Event Handler
         // Dynamically adds currency formating while user types
         private void TotalSalesTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -321,7 +334,7 @@ namespace Assignment1
                 TotalSalesTextBox.Select(TotalSalesTextBox.Text.Length, 0);
             }
         }
-
+        // Uses regex to validade chars entered
         private bool TextIsValid(string text)
         {
             Regex currency = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
@@ -329,6 +342,7 @@ namespace Assignment1
         }
         // End of stackoverflow code.
 
+        // KeyPress Event Handler
         // Does not allow user to enter anything but numbers 
         private void HoursWorkedTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
