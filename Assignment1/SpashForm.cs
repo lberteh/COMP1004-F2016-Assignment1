@@ -16,5 +16,18 @@ namespace Assignment1
         {
             InitializeComponent();
         }
+
+        // Transition from splash form to main form
+        private void SplashFormTimer_Tick(object sender, EventArgs e)
+        {
+            SplashFormTimer.Enabled = false;
+
+            // Instantiate the Mail Order form
+            MailOrder mailOrder = new MailOrder();
+
+            mailOrder.Show();
+            // Hide this form
+            this.Hide();
+        }
     }
 }
