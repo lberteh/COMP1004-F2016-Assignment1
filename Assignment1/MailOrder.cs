@@ -15,39 +15,19 @@ namespace Assignment1
 {
     public partial class MailOrder : Form
     {
-        // class scope private variables
-        private Font placeholderFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
         public MailOrder()
         {
             InitializeComponent();
         }
 
-        public void FocusChildTextBox(object sender, EventArgs e)
-        {
-            Panel panel = (Panel)sender;
-            
-        }
-
-        private void MailOrder_Load(object sender, EventArgs e) 
-        {
-            foreach (Control ctrl in this.Controls)
-            {
-                if (ctrl.GetType() == typeof(TextBox) && ctrl.Name != "SalesBonusTextBox")
-                {
-                    // Do whatever to the TextBox 
-                    // ctrl.Font = placeholderFont;
-                    ctrl.Text = (string)ctrl.Tag;
-                    // ctrl.ForeColor = System.Drawing.SystemColors.WindowFrame;
-                }
-            }
-        }
-
+        //Click Event Handler for Calculate Button 
         private void CalculateBonusButton_Click(object sender, EventArgs e)
         {
             CalculateSalesBonus();            
         }
 
+        // Calculates Total Sales Bonus
         private void CalculateSalesBonus()
         {
             // Local variables
@@ -64,29 +44,48 @@ namespace Assignment1
             {
                 // read values from the text boxes
                 TotalHoursWorked = Convert.ToDouble(HoursWorkedTextBox.Text);
-                PercentageOfHoursWorked = TotalHoursWorked / MaxHours;
 
-                // clear all formating and keep only numbers 
-                TotalSales = TotalSalesTextBox.Text.Replace(",", "")
-                .Replace("$", "").Replace(".", "").TrimStart('0');
+                // Amount of hours validation, checks if inserted hours worked is not greater than 160
+                if(TotalHoursWorked > 160)
+                {              
+                    // if greater than 160, display errors   
+                    ErrorPanel.Visible = true;
+                    ErrorLabel.Text = "Hours Worked cannot exceed 160!";                    
+                } 
+                else
+                {
+                    // if not greater than 160, continue. Hide errors first
+                    ErrorPanel.Visible = false;
+
+                    PercentageOfHoursWorked = TotalHoursWorked / MaxHours;
+
+                    // clear all formating and keep only numbers 
+                    TotalSales = TotalSalesTextBox.Text.Replace(",", "")
+                    .Replace("$", "").Replace(".", "").TrimStart('0');
+
+                    // insert a dot before last 2 digits so we can have cents
+                    TotalSales = TotalSales.Insert(TotalSales.Length - 2, ".");
+                    // Debug.WriteLine(TotalSales);
+
+                    TotalMonthlySales = Convert.ToDouble(TotalSales);
+                    TotalBonusAmount = TotalMonthlySales * BonusPercentage;
+                    SalesBonus = PercentageOfHoursWorked * TotalBonusAmount;
+
+                    SalesBonusResultLabel.Text = SalesBonus.ToString("C2");
+                }
                 
-                // insert a dot before last 2 digits so we can have cents
-                TotalSales = TotalSales.Insert(TotalSales.Length - 2, ".");
-                // Debug.WriteLine(TotalSales);
-
-                TotalMonthlySales = Convert.ToDouble(TotalSales);
-                TotalBonusAmount = TotalMonthlySales * BonusPercentage;
-                SalesBonus = PercentageOfHoursWorked * TotalBonusAmount;              
-           
-                SalesBonusTextBox.Text = SalesBonus.ToString("C2");
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Invalid Data Entered", "Input Error");
+                // display error
+                ErrorPanel.Visible = true;
+                ErrorLabel.Text = "Invalid Data! Please, check Total Sales field.";
                 Debug.WriteLine(exception.Message);
             }
 
         }
+
+        // Click Event Handler. Changes Application Language
         private void SetLanguage(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -109,135 +108,197 @@ namespace Assignment1
         private void SetLanguageToPortuguese()
         {
             MailOrder.ActiveForm.Text = "Bônus de vendas";
-          //  LanguagesGroupBox.Text = "Idioma";
+            LanguageLabel.Text = "Idioma";
             EmployeesNameLabel.Text = "Nome do Funcionário";
             EmployeeIDLabel.Text = "ID do Funcionário";
             HoursWorkedLabel.Text = "Horas Trabalhadas";
             TotalSalesLabel.Text = "Total de Vendas";
-            Sal.Text = "Bônus de Vendas:";
+            SalesBonusLabel.Text = "Bônus de Vendas:";
             CalculateBonusButton.Text = "Calcular";
             PrintButton.Text = "Imprimir";
             NextEntryButton.Text = "Próximo";
+
+            // change buttons background color (to identify which language is active)
+            SetLanguageToPortugueseButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#90a4ae");
+            SetLanguageToPortugueseButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#eceff1");
+
+            SetLanguageToEnglishButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#b0bec5");
+            SetLanguageToEnglishButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#546e7a");
+
+            SetLanguageToFrenchButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#b0bec5");
+            SetLanguageToFrenchButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#546e7a");
         }
 
         private void SetLanguageToFrench()
         {
             MailOrder.ActiveForm.Text = "Bonus de vente";
-            //   LanguagesGroupBox.Text = "La Langue";
+            LanguageLabel.Text = "La Langue";
             EmployeesNameLabel.Text = "Nom de l'Employé";
             EmployeeIDLabel.Text = "ID d'Employé";
             HoursWorkedLabel.Text = "Heures Travaillées";
             TotalSalesLabel.Text = "Total des ventes";
-            Sal.Text = "Bonus de vente";
+            SalesBonusLabel.Text = "Bonus de vente";
             CalculateBonusButton.Text = "Calculer";
             PrintButton.Text = "Imprimer";
             NextEntryButton.Text = "Suivant";
+
+            // change buttons background color (to identify which language is active)
+            SetLanguageToFrenchButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#90a4ae");
+            SetLanguageToFrenchButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#eceff1");
+
+            SetLanguageToEnglishButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#b0bec5");
+            SetLanguageToEnglishButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#546e7a");
+
+            SetLanguageToPortugueseButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#b0bec5");
+            SetLanguageToPortugueseButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#546e7a");
         }
 
         private void SetLanguageToEnglish()
         {
             MailOrder.ActiveForm.Text = "Sales Bonus";
-            //   LanguagesGroupBox.Text = "Language";
+            LanguageLabel.Text = "Language";
             EmployeesNameLabel.Text = "Employee's Name";
             EmployeeIDLabel.Text = "Employee ID";
             HoursWorkedLabel.Text = "Hours Worked";
             TotalSalesLabel.Text = "Total Sales";
-            Sal.Text = "Sales Bonus";
+            SalesBonusLabel.Text = "Sales Bonus";
             CalculateBonusButton.Text = "Calculate";
             PrintButton.Text = "Print";
             NextEntryButton.Text = "Next";
+
+            // change buttons background color (to identify which language is active)
+            SetLanguageToEnglishButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#90a4ae");
+            SetLanguageToEnglishButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#eceff1");
+
+            SetLanguageToFrenchButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#b0bec5");
+            SetLanguageToFrenchButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#546e7a");
+
+            SetLanguageToPortugueseButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#b0bec5");
+            SetLanguageToPortugueseButton.ForeColor = System.Drawing.ColorTranslator.FromHtml("#546e7a");
         }
 
-        
-
-        // This method runs when the TextBox "Enter" event is triggered 
-        // Empties textbox text if text is equals to placeholder 
-        public void TextBoxGotFocus(object sender, EventArgs e)
+        // This method is used to implement a placeholder functionality for the textboxes
+        // Once user starts typing, the label that was visible (working as a placeholder), goes invisible
+        public void TextBoxTextChange(object sender, EventArgs e)
         {
+            // Local variables
             TextBox tBox = (TextBox)sender;
-            string placeholder = (string)tBox.Tag; // or tb.Tag.ToString()
-            if(tBox.Text == placeholder)
+            string siblingLabel = (string)tBox.Tag;
+            Label label = ((Label)this.Controls.Find(siblingLabel, true)[0]);
+
+            // Toogles between visible and invisible acording to textbox content. 
+            if (tBox.Text != string.Empty)
             {
-                tBox.Text = string.Empty;
+                label.Visible = false;
+            } 
+            // If there is no text, label (placeholder) is visible
+            else
+            {
+                label.Visible = true;
             }
-            
-            Debug.WriteLine(placeholder);
         }
 
-        // This method runs when the TextBox "Leave" event is triggered 
-        // Inserts placeholder if textbox text is empty
-        public void TextBoxLostFocus(object sender, EventArgs e)
+        // If Label is Clicked, related textbox gets focused
+        public void FocusTextBox(object sender, EventArgs e)
         {
-            TextBox tBox = (TextBox)sender;
-            string placeholder = (string)tBox.Tag;
-            if(tBox.Text == string.Empty)
-            {
-                tBox.Text = placeholder;
-            }
+            Label label = (Label)sender;
+            string siblingTextBox = (string)label.Tag;
+            TextBox tBox = ((TextBox)this.Controls.Find(siblingTextBox, true)[0]);
+            tBox.Focus();
         }
 
+        // Click Event Handler for Print Button
         private void PrintButton_Click(object sender, EventArgs e)
         {
             PrintMessage();
         }
 
+        // Simulates a print preview using a MessageBox
         private void PrintMessage()
         {
-            string caption;
+            // Displays error based on returned string
             if (PrintedMessage() == "All fields are required")
             {
-                caption = "Print Error";
+                ErrorPanel.Visible = true;
+                ErrorLabel.Text = "All fields are required!";
             }
+            // Previews Print
             else
             {
-                caption = "Sending to Printer";
+                ErrorPanel.Visible = false;
+                ErrorLabel.Text = string.Empty;
+                MessageBox.Show(PrintedMessage(), "Sending to Printer");
             }
-            MessageBox.Show(PrintedMessage(), caption);
+            
         }
 
+        // Creates text to be printed
         private string PrintedMessage()
         {
             string toPrint;
-            try
+
+            // If at least one field is empty, returns a string that will trigger an error message
+            if(EmployeesNameTextBox.Text == string.Empty 
+                || EmployeeIDTextBox.Text == string.Empty
+                || HoursWorkedTextBox.Text == string.Empty 
+                || TotalSalesTextBox.Text == string.Empty
+                || SalesBonusResultLabel.Text == string.Empty)
             {
-                toPrint = "hsbdhj";
-                foreach (Control ctrl in this.Controls)
-                {
-                    if (ctrl.GetType() == typeof(TextBox) && ctrl.Name != "SalesBonusTextBox")
-                    {
-                       if (ctrl.Text == (string)ctrl.Tag || SalesBonusTextBox.Text == string.Empty)
-                       {                         
-                           
-                           throw new Exception("test");
-                       }
-                       else
-                        {
-                            toPrint = "Print Preview" 
-                                + "\n\nEmployee Name: " + EmployeesNameTextBox.Text
-                                + "\nEmployee ID: "     + EmployeeIDTextBox.Text
-                                + "\n\nHours Worked: "  + HoursWorkedTextBox.Text
-                                + "\nTotal Sales: "     + TotalSalesTextBox.Text
-                                + "\n\nSALES BONUS: "   + SalesBonusTextBox.Text;
-                        }
-                    }
-                }
-                
+                toPrint = "All fields are required";
             }
-            catch (Exception exception)
+            // Creates text to be printed
+            else
             {
-                toPrint = "All fields are required";                
-                Debug.WriteLine(exception.Message);
+                toPrint = "Print Preview"
+                    + "\n\nEmployee Name: " + EmployeesNameTextBox.Text
+                    + "\nEmployee ID: " + EmployeeIDTextBox.Text
+                    + "\n\nHours Worked: " + HoursWorkedTextBox.Text
+                    + "\nTotal Sales: " + TotalSalesTextBox.Text
+                    + "\n\nSALES BONUS: " + SalesBonusResultLabel.Text;
             }
+
             return toPrint;
+
         }
 
+        // Click Event Handler for "Next" Button
         private void NextEntryButton_Click(object sender, EventArgs e)
         {
-
+            ClearForm();
         }
 
+        // Clears form except for Total Sales textbox text.
+        private void ClearForm()
+        {
+            EmployeesNameTextBox.Text = string.Empty;
+            EmployeeIDTextBox.Text = string.Empty;
+            HoursWorkedTextBox.Text = string.Empty;
+            SalesBonusResultLabel.Text = string.Empty;
+        }
+
+        // Dynamically adds currency formating while user types
         private void TotalSalesTextBox_TextChanged(object sender, EventArgs e)
         {
+            // Local Variables
+            TextBox tBox = (TextBox)sender;
+            string siblingLabel = (string)tBox.Tag;            
+            Label label = ((Label)this.Controls.Find(siblingLabel, true)[0]);
+
+            // Deal with placeholders
+            if (tBox.Text != string.Empty)
+            {
+                label.Visible = false;
+            }
+            else
+            {
+                label.Visible = true;
+            }
+
+            //********************* I found the code below on StackOverflow!! ************************
+            // http://stackoverflow.com/questions/19215989/textbox-for-price-cash-currency-on-c-sharp
+            //  Belongs to user http://stackoverflow.com/users/2998305/greatnate
+            //****************************************************************************************
+
             //Remove previous formatting, or the decimal check will fail including leading zeros
             string value = TotalSalesTextBox.Text.Replace(",", "")
                 .Replace("$", "").Replace(".", "").TrimStart('0');
@@ -254,7 +315,6 @@ namespace Assignment1
                 TotalSalesTextBox.Select(TotalSalesTextBox.Text.Length, 0);
             }
             bool goodToGo = TextIsValid(TotalSalesTextBox.Text);
-           // enterButton.Enabled = goodToGo;
             if (!goodToGo)
             {
                 TotalSalesTextBox.Text = "$0.00";
@@ -267,15 +327,40 @@ namespace Assignment1
             Regex currency = new Regex(@"^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$");
             return currency.IsMatch(text);
         }
+        // End of stackoverflow code.
 
-        private void EmployeesNameLabel_Click(object sender, EventArgs e)
+        // Does not allow user to enter anything but numbers 
+        private void HoursWorkedTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        // Checks for amount of hours worked
+        private void CheckForHoursWorked()
         {
-            SetLanguageToEnglishButton.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFCC66");
+            try
+            {
+                int hours = Convert.ToInt32(HoursWorkedTextBox.Text);
+                if (hours > 160)
+                {
+                    // Display error in case hours worked is greater than 160.
+                    ErrorPanel.Visible = true;
+                    ErrorLabel.Text = "Hours Worked cannot exceed 160!";
+                }
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+        // Leave Event Handler for Hours Worked TextBox
+        private void HoursWorkedTextBox_Leave(object sender, EventArgs e)
+        {
+            CheckForHoursWorked();
         }
     }
 }
